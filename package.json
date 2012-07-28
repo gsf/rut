@@ -1,0 +1,12 @@
+{
+  "name": "rut",
+  "version": "0.0.0",
+  "description": "Routing middleware for stack",
+  "homepage": "https://github.com/gsf/rut",
+  "author" : "Gabriel Farrell <g@grrawr.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gsf/rut.git"
+  },
+  "main": "rut.js"
+}
