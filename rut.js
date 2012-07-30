@@ -26,12 +26,14 @@ function rut(route, options, cb) {
     req.parsedUrl = req.parsedUrl || url.parse(req.url)
     var path = req.parsedUrl.pathname
     if (!route.exec(path)) return next()
+    // TODO append match groups to params
     cb(req, res, next)
   }
 }
 
 module.exports = module.exports.all = rut
 
+// TODO require('methods') for list of methods
 var methods = ['GET', 'POST', 'DELETE']
 methods.forEach(function(method) {
   module.exports[method.toLowerCase()] = function(route, options, cb) {
