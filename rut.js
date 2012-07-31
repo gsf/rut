@@ -1,3 +1,4 @@
+var methods = require('methods')
 var url = require('url')
 
 // special characters that need to be escaped when passed to `RegExp()` 
@@ -31,17 +32,16 @@ function rut(route, options, cb) {
   }
 }
 
-module.exports = module.exports.all = rut
+module.exports = rut
+module.exports.all = rut
 
-// TODO require('methods') for list of methods
-var methods = ['GET', 'POST', 'DELETE']
 methods.forEach(function(method) {
-  module.exports[method.toLowerCase()] = function(route, options, cb) {
+  module.exports[method] = function(route, options, cb) {
     if (!cb) {
       cb = options
       options = {}
     }
-    options.method = method
+    options.method = method.toUpperCase()
     return rut(route, options, cb)
   }
 })

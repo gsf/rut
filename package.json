@@ -8,5 +8,8 @@
     "type": "git",
     "url": "https://github.com/gsf/rut.git"
   },
-  "main": "rut.js"
+  "main": "rut.js",
+  "dependencies": {
+    "methods": "0.0.1"
+  }
 }
