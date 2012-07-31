@@ -26,9 +26,9 @@ function rut(route, options, cb) {
     if (options.method && options.method != req.method) return next()
     req.parsedUrl = req.parsedUrl || url.parse(req.url)
     var path = req.parsedUrl.pathname
-    if (!route.exec(path)) return next()
-    // TODO append match groups to params
-    cb(req, res, next)
+    var matches = route.exec(path)
+    if (!matches) return next()
+    cb.apply(this, [req, res, next].concat(matches.slice(1)))
   }
 }
 
