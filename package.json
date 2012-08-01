@@ -1,6 +1,6 @@
 {
   "name": "rut",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Routing middleware for stack",
   "homepage": "https://github.com/gsf/rut",
   "author" : "Gabriel Farrell <g@grrawr.com>",
