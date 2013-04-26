@@ -9,6 +9,7 @@ var specialChars = /[|.+?{}()\[\]\^$]/g
 var cache = {}
 
 function rut(route, options, cb) {
+  route = route || '**';
   if (!cb) {
     cb = options
     options = {}
