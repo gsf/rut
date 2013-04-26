@@ -16,6 +16,7 @@
     "methods": "0.0.1"
   },
   "devDependencies": {
-    "tap": "~0.4.1"
+    "tap": "~0.4.1",
+    "stack": "~0.1.0"
   }
 }
