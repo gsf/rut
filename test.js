@@ -55,8 +55,8 @@ test('requests should return as expected', function (t) {
 });
 
 test('teardown', function (t) {
-  setImmediate(function () {
+  t.end();
+  process.nextTick(function () {
     process.exit();
   });
-  t.end();
 });
