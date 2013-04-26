@@ -3,6 +3,8 @@ rut
 
 Routing middleware for stack.
 
+[![Build Status](https://travis-ci.org/gsf/rut.png)](https://travis-ci.org/gsf/rut)
+
 ```js
 var http = require('http');
 var rut = require('rut');
