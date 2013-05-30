@@ -20,16 +20,30 @@ http.createServer(stack(
 
   // A call to rut.post() will only cover the POST for that path
   rut.post('/form', function (req, res, next) {
-    var received = 'This I got: ';
+    var received = 'Posted: ';
     req.on('data', function (data) {
       received += data;
     });
     req.on('end', function () {
       res.end(received);
     });
-  })
+  }),
 
-  // TODO wildcard tests and examples
+  // A star will match any non-slash
+  rut.get('/user/*', function (req, res, next, userId) {
+    // userId can also be found at req.params[0]
+    res.end('user: ' + userId);
+  }),
+
+  // Two stars matches slashes as well
+  rut.get('/file/**', function (req, res, next, filename) {
+    res.end('file: ' + filename);
+  }),
+
+  // Or use a RegExp
+  rut.get(/^\/page\/(\d+)$/, function (req, res, next, pageNumber) {
+    res.end('page number: ' + pageNumber);
+  })
 )).listen();
 ```
 
