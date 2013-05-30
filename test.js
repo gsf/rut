@@ -9,7 +9,7 @@ test('setup', function (t) {
       res.end('ding ding');
     }),
     rut.post('/form', function (req, res, next) {
-      var received = 'This I got: ';
+      var received = 'Posted: ';
       req.on('data', function (data) {
         received += data;
       });
@@ -18,13 +18,16 @@ test('setup', function (t) {
       });
     }),
     rut.get('/user/*', function (req, res, next, userId) {
-      res.end('user: ' + userId);
+      res.end('user id: ' + userId);
     }),
     rut.get('/event/*', function (req, res, next) {
-      res.end('event: ' + req.params[0]);
+      res.end('event id: ' + req.params[0]);
     }),
     rut.get('/file/**', function (req, res, next, filename) {
-      res.end('file: ' + filename);
+      res.end('filename: ' + filename);
+    }),
+    rut.get(/^\/page\/(\d+)$/, function (req, res, next, pageNumber) {
+      res.end('page number: ' + pageNumber);
     })
   )).listen(7462, function() {
     t.end();
@@ -54,7 +57,7 @@ test('post', function (t) {
   var req = http.request({port: 7462, path: '/form', method: 'post'}, function (res) {
     res.setEncoding('utf8');
     res.on('data', function (data) {
-      t.equal(data, 'This I got: abracadabra');
+      t.equal(data, 'Posted: abracadabra');
     });
   });
   req.end('abracadabra');
@@ -72,7 +75,7 @@ test('function param', function (t) {
   http.get('http://localhost:7462/user/12', function (res) {
     res.setEncoding('utf8');
     res.on('data', function (data) {
-      t.equal(data, 'user: 12');
+      t.equal(data, 'user id: 12');
     });
   });
 });
@@ -82,12 +85,12 @@ test('req param', function (t) {
   http.get('http://localhost:7462/event/12', function (res) {
     res.setEncoding('utf8');
     res.on('data', function (data) {
-      t.equal(data, 'event: 12');
+      t.equal(data, 'event id: 12');
     });
   });
 });
 
-test('no match beyond a slash on a star', function (t) {
+test('single stars don\'t match slashes', function (t) {
   t.plan(1);
   http.get('http://localhost:7462/user/12/profile', function (res) {
     t.equal(res.statusCode, 404);
@@ -99,8 +102,25 @@ test('double star', function (t) {
   http.get('http://localhost:7462/file/my/best/unicorn.png', function (res) {
     res.setEncoding('utf8');
     res.on('data', function (data) {
-      t.equal(data, 'file: my/best/unicorn.png');
+      t.equal(data, 'filename: my/best/unicorn.png');
     });
+  });
+});
+
+test('regular expression match', function (t) {
+  t.plan(1);
+  http.get('http://localhost:7462/page/415', function (res) {
+    res.setEncoding('utf8');
+    res.on('data', function (data) {
+      t.equal(data, 'page number: 415');
+    });
+  });
+});
+
+test('regular expression nomatch', function (t) {
+  t.plan(1);
+  http.get('http://localhost:7462/page/nan', function (res) {
+    t.equal(res.statusCode, 404);
   });
 });
 
