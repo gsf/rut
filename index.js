@@ -21,7 +21,7 @@ var specialChars = /[|.+?{}()\[\]\^$]/g
 // cache for route RegExps
 var cache = {}
 
-function rut(route, options, cb) {
+function rut (route, options, cb) {
   route = route || '**';
   if (!cb) {
     cb = options
@@ -36,7 +36,7 @@ function rut(route, options, cb) {
       .replace(/\*/g, '([^/]+)') + '$'
     ))
   }
-  return function(req, res, next) {
+  return function (req, res, next) {
     if (options.method && options.method != req.method) return next()
     req.parsedUrl = req.parsedUrl || url.parse(req.url)
     var path = req.parsedUrl.pathname
@@ -50,8 +50,8 @@ function rut(route, options, cb) {
 module.exports = rut
 module.exports.all = rut
 
-methods.forEach(function(method) {
-  module.exports[method] = function(route, options, cb) {
+methods.forEach(function (method) {
+  module.exports[method] = function (route, options, cb) {
     if (!cb) {
       cb = options
       options = {}
