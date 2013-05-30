@@ -1,5 +1,18 @@
-var methods = require('methods')
 var url = require('url')
+
+// From http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+// I'm happy to add more as needed
+var methods = [
+  'get',
+  'head',
+  'post',
+  'put',
+  'delete',
+  'trace',
+  'options',
+  'connect',
+  'patch'
+]
 
 // special characters that need to be escaped when passed to `RegExp()` 
 // lest they be interpreted as pattern-matching
