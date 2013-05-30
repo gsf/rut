@@ -14,11 +14,11 @@ var methods = [
   'patch'
 ]
 
-// special characters that need to be escaped when passed to `RegExp()` 
+// Special characters that need to be escaped when passed to `RegExp()` 
 // lest they be interpreted as pattern-matching
 var specialChars = /[|.+?{}()\[\]\^$]/g
 
-// cache for route RegExps
+// Cache for generated route RegExps
 var cache = {}
 
 function rut (route, options, cb) {
@@ -27,8 +27,8 @@ function rut (route, options, cb) {
     cb = options
     options = {}
   }
-  // convert route to RegExp with matching * groups if not already a RegExp
-  // use constructor because instanceof fails between modules
+  // Convert route to RegExp if not already a RegExp
+  // Use constructor because instanceof fails between modules
   if (route.constructor.name != 'RegExp') {
     route = cache[route] || (cache[route] = new RegExp('^' + String(route)
       .replace(specialChars, '\\$&')
@@ -42,7 +42,7 @@ function rut (route, options, cb) {
     var path = req.parsedUrl.pathname
     var matches = route.exec(path)
     if (!matches) return next()
-    // set req.params and add them to the end of our function param list
+    // Set req.params and add them to the end of our function param list
     req.params = matches.slice(1)
     cb.apply(null, [req, res, next].concat(req.params))
   }
