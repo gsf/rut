@@ -20,6 +20,9 @@ test('setup', function (t) {
     rut.get('/user/*', function (req, res, next, userId) {
       res.end('user: ' + userId);
     }),
+    rut.get('/event/*', function (req, res, next) {
+      res.end('event: ' + req.params[0]);
+    }),
     rut.get('/file/**', function (req, res, next, filename) {
       res.end('file: ' + filename);
     })
@@ -64,12 +67,22 @@ test('getting a post route is a 404', function (t) {
   });
 });
 
-test('get with a param', function (t) {
+test('function param', function (t) {
   t.plan(1);
   http.get('http://localhost:7462/user/12', function (res) {
     res.setEncoding('utf8');
     res.on('data', function (data) {
       t.equal(data, 'user: 12');
+    });
+  });
+});
+
+test('req param', function (t) {
+  t.plan(1);
+  http.get('http://localhost:7462/event/12', function (res) {
+    res.setEncoding('utf8');
+    res.on('data', function (data) {
+      t.equal(data, 'event: 12');
     });
   });
 });

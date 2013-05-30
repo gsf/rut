@@ -42,8 +42,9 @@ function rut (route, options, cb) {
     var path = req.parsedUrl.pathname
     var matches = route.exec(path)
     if (!matches) return next()
-    // add matches to the end of our param list
-    cb.apply(null, [req, res, next].concat(matches.slice(1)))
+    // set req.params and add them to the end of our function param list
+    req.params = matches.slice(1)
+    cb.apply(null, [req, res, next].concat(req.params))
   }
 }
 
